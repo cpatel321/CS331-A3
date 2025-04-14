@@ -23,18 +23,75 @@ struct distance_table
 /* students to write the following two routines, and maybe some others */
 
 
-rtinit1() 
-{
-
-}
-
-
-rtupdate1(rcvdpkt)
-  struct rtpkt *rcvdpkt;
+void rtinit1() {
+  int i, j;
   
-{
+  // Initialize distance table with infinity (999)
+  for(i = 0; i < 4; i++) {
+      for(j = 0; j < 4; j++) {
+          dt1.costs[i][j] = 999;
+      }
+  }
+  
+  // Set direct link costs
+  dt1.costs[0][1] = 1;   // Cost to node 0
+  dt1.costs[1][1] = 0;   // Cost to self
+  dt1.costs[2][1] = 1;   // Cost to node 2
 
+  // Send initial distance vector to neighbors (0 and 2)
+  struct rtpkt pkt;
+  pkt.sourceid = 1;
+  int neighbors[] = {0, 2};
+  for(i = 0; i < 2; i++) {
+      pkt.destid = neighbors[i];
+      for(j = 0; j < 4; j++) {
+          pkt.mincost[j] = dt1.costs[j][1];
+      }
+      tolayer2(pkt);
+  }
 }
+
+
+void rtupdate1(struct rtpkt *rcvdpkt) {
+  int source = rcvdpkt->sourceid;
+  int updated = NO;
+
+  // Update distance table
+  for(int dest=0; dest<4; dest++) {
+      int new_cost = dt1.costs[source][source] + rcvdpkt->mincost[dest];
+      if(new_cost < dt1.costs[dest][source]) {
+          dt1.costs[dest][source] = new_cost;
+          updated = YES;
+      }
+  }
+
+  if(updated) {
+      // Compute new minimum costs
+      int new_mincost[4];
+      for(int dest=0; dest<4; dest++) {
+          new_mincost[dest] = 999;
+          for(int via=0; via<4; via++) {
+              if(dt1.costs[dest][via] < new_mincost[dest]) {
+                  new_mincost[dest] = dt1.costs[dest][via];
+              }
+          }
+      }
+
+      // Send to neighbors (0,2)
+      struct rtpkt pkt;
+      pkt.sourceid = 1;
+      int neighbors[] = {0, 2};
+      for(int i=0; i<2; i++) {
+          pkt.destid = neighbors[i];
+          memcpy(pkt.mincost, new_mincost, sizeof(new_mincost));
+          tolayer2(pkt);
+      }
+      
+      printf("Node 1 updated:\n");
+      printdt1(&dt1);
+  }
+}
+
 
 
 printdt1(dtptr)
@@ -52,14 +109,9 @@ printdt1(dtptr)
 
 
 
-linkhandler1(linkid, newcost)   
-int linkid, newcost;   
-/* called when cost from 1 to linkid changes from current value to newcost*/
-/* You can leave this routine empty if you're an undergrad. If you want */
-/* to use this routine, you'll need to change the value of the LINKCHANGE */
-/* constant definition in prog3.c from 0 to 1 */
-	
-{
+void linkhandler1(int linkid, int newcost) {
+  dt1.costs[linkid][linkid] = newcost;
+  // Trigger distance vector recomputation
+  // Send updates to neighbors if needed
 }
-
 
