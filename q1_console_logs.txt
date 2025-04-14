@@ -1,0 +1,157 @@
+
+mininet> h1 ping h3 -c 3
+PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+From 10.0.0.2 icmp_seq=1 Destination Host Unreachable
+From 10.0.0.2 icmp_seq=2 Destination Host Unreachable
+From 10.0.0.2 icmp_seq=3 Destination Host Unreachable
+
+--- 10.0.0.4 ping statistics ---
+3 packets transmitted, 0 received, +3 errors, 100% packet loss, time 2035ms
+pipe 3
+
+
+
+h1 tcpdump -i h1-eth0
+18:07:58.277017 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277018 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277018 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277018 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277018 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277018 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277018 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277019 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277019 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277019 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277019 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277019 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277019 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277020 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277020 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277020 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277020 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277020 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277021 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.277021 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.294118 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+18:07:58.294194 ARP, Request who-has 10.0.0.4 tell 10.0.0.2, length 28
+
+
+
+with stp 
+
+mininet@mininet-vm:~$ sudo python3 top_stp.py
+*** Creating network
+*** Adding controller
+*** Adding hosts:
+h1 h2 h3 h4 h5 h6 h7 h8
+*** Adding switches:
+s1 s2 s3 s4
+*** Adding links:
+(5ms delay) (5ms delay) (h1, s1) (5ms delay) (5ms delay) (h2, s1) (5ms delay) (5ms delay) (h3, s2) (5ms delay) (5ms delay) (h4, s2) (5ms delay) (5ms delay) (h5, s3) (5ms delay) (5ms delay) (h6, s3) (5ms delay) (5ms delay) (h7, s4) (5ms delay) (5ms delay) (h8, s4) (7ms delay) (7ms delay) (s1, s2) (7ms delay) (7ms delay) (s1, s3) (7ms delay) (7ms delay) (s2, s3) (7ms delay) (7ms delay) (s3, s4) (7ms delay) (7ms delay) (s4, s1)
+*** Configuring hosts
+h1 h2 h3 h4 h5 h6 h7 h8
+*** Starting controller
+c0
+*** Starting 4 switches
+s1 s2 s3 s4 ...(5ms delay) (5ms delay) (7ms delay) (7ms delay) (7ms delay) (5ms delay) (5ms delay) (7ms delay) (7ms delay) (5ms delay) (5ms delay) (7ms delay) (7ms delay) (7ms delay) (5ms delay) (5ms delay) (7ms delay) (7ms delay)
+*** Starting CLI:
+mininet> h3 ping h1 -c 3
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=88.8 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=34.7 ms
+64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=37.3 ms
+
+--- 10.0.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+rtt min/avg/max/mdev = 34.741/53.628/88.813/24.901 ms
+mininet> h5 ping h7 -c 3
+PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=126 ms
+64 bytes from 10.0.0.8: icmp_seq=2 ttl=64 time=50.5 ms
+64 bytes from 10.0.0.8: icmp_seq=3 ttl=64 time=52.2 ms
+
+--- 10.0.0.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 50.468/76.237/126.057/35.234 ms
+mininet> h8 ping h2 -c 3
+PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=91.7 ms
+64 bytes from 10.0.0.3: icmp_seq=2 ttl=64 time=36.1 ms
+64 bytes from 10.0.0.3: icmp_seq=3 ttl=64 time=36.2 ms
+
+#after 30 seconds 
+
+--- 10.0.0.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 36.051/54.652/91.663/26.170 ms
+mininet> h3 ping h1 -c 3
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=37.1 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=37.5 ms
+64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=37.2 ms
+
+--- 10.0.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+rtt min/avg/max/mdev = 37.123/37.270/37.455/0.137 ms
+mininet> h5 ping h7 -c 3
+PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=51.4 ms
+64 bytes from 10.0.0.8: icmp_seq=2 ttl=64 time=51.5 ms
+64 bytes from 10.0.0.8: icmp_seq=3 ttl=64 time=50.8 ms
+
+--- 10.0.0.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 50.799/51.217/51.456/0.296 ms
+mininet> h8 ping h2 -c 3
+PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=37.9 ms
+64 bytes from 10.0.0.3: icmp_seq=2 ttl=64 time=37.2 ms
+64 bytes from 10.0.0.3: icmp_seq=3 ttl=64 time=37.3 ms
+
+
+#after another 30 seconds 
+--- 10.0.0.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 37.165/37.469/37.941/0.338 ms
+mininet> h3 ping h1 -c 3
+PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
+64 bytes from 10.0.0.2: icmp_seq=1 ttl=64 time=37.0 ms
+64 bytes from 10.0.0.2: icmp_seq=2 ttl=64 time=37.2 ms
+64 bytes from 10.0.0.2: icmp_seq=3 ttl=64 time=39.2 ms
+
+--- 10.0.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2007ms
+rtt min/avg/max/mdev = 36.954/37.768/39.157/0.986 ms
+mininet> h5 ping h7 -c 3
+PING 10.0.0.8 (10.0.0.8) 56(84) bytes of data.
+64 bytes from 10.0.0.8: icmp_seq=1 ttl=64 time=52.2 ms
+64 bytes from 10.0.0.8: icmp_seq=2 ttl=64 time=51.3 ms
+64 bytes from 10.0.0.8: icmp_seq=3 ttl=64 time=51.9 ms
+
+--- 10.0.0.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 51.344/51.831/52.245/0.371 ms
+mininet> h8 ping h2 -c 3
+PING 10.0.0.3 (10.0.0.3) 56(84) bytes of data.
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=38.7 ms
+64 bytes from 10.0.0.3: icmp_seq=2 ttl=64 time=35.9 ms
+64 bytes from 10.0.0.3: icmp_seq=3 ttl=64 time=37.1 ms
+
+--- 10.0.0.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 35.935/37.252/38.721/1.142 ms
+mininet> net
+h1 h1-eth0:s1-eth1
+h2 h2-eth0:s1-eth2
+h3 h3-eth0:s2-eth1
+h4 h4-eth0:s2-eth2
+h5 h5-eth0:s3-eth1
+h6 h6-eth0:s3-eth2
+h7 h7-eth0:s4-eth1
+h8 h8-eth0:s4-eth2
+s1 lo:  s1-eth1:h1-eth0 s1-eth2:h2-eth0 s1-eth3:s2-eth3 s1-eth4:s4-eth4 s1-eth5:s3-eth5
+s2 lo:  s2-eth1:h3-eth0 s2-eth2:h4-eth0 s2-eth3:s1-eth3 s2-eth4:s3-eth3
+s3 lo:  s3-eth1:h5-eth0 s3-eth2:h6-eth0 s3-eth3:s2-eth4 s3-eth4:s4-eth3 s3-eth5:s1-eth5
+s4 lo:  s4-eth1:h7-eth0 s4-eth2:h8-eth0 s4-eth3:s3-eth4 s4-eth4:s1-eth4
+c0
+mininet>

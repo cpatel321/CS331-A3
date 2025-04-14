@@ -1,0 +1,59 @@
+console_logs_q2.txt
+
+mininet@mininet-vm:~$ sudo python3 q2.py
+*** Creating network
+*** Adding controller
+*** Adding hosts:
+h1 h2 h3 h4 h5 h6 h7 h8 h9
+*** Adding switches:
+s1 s2 s3 s4
+*** Adding links:
+(5ms delay) (5ms delay) (h1, h9) (5ms delay) (5ms delay) (h2, h9) (5ms delay) (5ms delay) (h3, s2) (5ms delay) (5ms delay) (h4, s2) (5ms delay) (5ms delay) (h5, s3) (5ms delay) (5ms delay) (h6, s3) (5ms delay) (5ms delay) (h7, s4) (5ms delay) (5ms delay) (h8, s4) (5ms delay) (5ms delay) (h9, s1) (7ms delay) (7ms delay) (s1, s2) (7ms delay) (7ms delay) (s1, s3) (7ms delay) (7ms delay) (s2, s3) (7ms delay) (7ms delay) (s3, s4) (7ms delay) (7ms delay) (s4, s1)
+*** Configuring hosts
+h1 h2 h3 h4 h5 h6 h7 h8 h9
+*** Starting controller
+c0
+*** Starting 4 switches
+s1 s2 s3 s4 ...(5ms delay) (7ms delay) (7ms delay) (7ms delay) (5ms delay) (5ms delay) (7ms delay) (7ms delay) (5ms delay) (5ms delay) (7ms delay) (7ms delay) (7ms delay) (5ms delay) (5ms delay) (7ms delay) (7ms delay)
+Configuring switch s1...
+Configuring switch s2...
+Configuring switch s3...
+Configuring switch s4...
+Waiting 40(Arbitrary) seconds for STP convergence
+*** Starting CLI:
+mininet> h1 ping h5 -c 3
+PING 10.0.0.6 (10.0.0.6) 56(84) bytes of data.
+64 bytes from 10.0.0.6: icmp_seq=1 ttl=63 time=107 ms
+64 bytes from 10.0.0.6: icmp_seq=2 ttl=63 time=47.0 ms
+64 bytes from 10.0.0.6: icmp_seq=3 ttl=63 time=47.2 ms
+
+--- 10.0.0.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 47.049/67.196/107.319/28.371 ms
+mininet> h2 ping h3 -c 3
+PING 10.0.0.4 (10.0.0.4) 56(84) bytes of data.
+64 bytes from 10.0.0.4: icmp_seq=1 ttl=63 time=138 ms
+64 bytes from 10.0.0.4: icmp_seq=2 ttl=63 time=47.9 ms
+64 bytes from 10.0.0.4: icmp_seq=3 ttl=63 time=47.6 ms
+
+--- 10.0.0.4 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 47.591/77.850/138.053/42.569 ms
+mininet> h8 ping h1 -c 3
+PING 10.1.1.2 (10.1.1.2) 56(84) bytes of data.
+64 bytes from 10.1.1.2: icmp_seq=1 ttl=63 time=92.8 ms
+64 bytes from 10.1.1.2: icmp_seq=2 ttl=63 time=47.6 ms
+64 bytes from 10.1.1.2: icmp_seq=3 ttl=63 time=46.5 ms
+
+--- 10.1.1.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2004ms
+rtt min/avg/max/mdev = 46.539/62.294/92.783/21.563 ms
+mininet> h6 ping h2 -c 3
+PING 10.1.1.3 (10.1.1.3) 56(84) bytes of data.
+64 bytes from 10.1.1.3: icmp_seq=1 ttl=63 time=100 ms
+64 bytes from 10.1.1.3: icmp_seq=2 ttl=63 time=48.1 ms
+64 bytes from 10.1.1.3: icmp_seq=3 ttl=63 time=49.0 ms
+
+--- 10.1.1.3 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 48.078/65.852/100.443/24.462 ms
